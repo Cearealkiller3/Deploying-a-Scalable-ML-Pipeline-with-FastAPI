@@ -25,7 +25,7 @@ def train_model(X_train, y_train, tune=False):
     if tune:
         param_grid = {
             'n_params': [100, 200],
-            'max_depth': [none, 10, 20],
+            'max_depth': [None, 10, 20],
             'min_samples_split': [2, 5]
         }
         grid_search = GridSearchCV(

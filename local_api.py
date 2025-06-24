@@ -33,4 +33,4 @@ r = requests.post('http://127.0.0.1:8000/model', json=data)
 
 
 print(f'Status code: {r.status_code}')
-print(f'Result: {r.json()['prediction']}')
+print(f"Result: {r.json()['prediction']}")
