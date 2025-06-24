@@ -3,12 +3,11 @@ from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
 import numpy as np
 import pandas as pd
-from ml.model import train_model, inference
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train):
+def train_model(X_train, y_train, tune=False):
     """
     Trains a machine learning model and returns it.
 
@@ -40,7 +39,7 @@ def train_model(X_train, y_train):
         grid_search.fit(X_train, y_train)
         model = grid_search.best_estimator_
     else:
-        model = RandomForestClassifier(random_state=42),
+        model = RandomForestClassifier(random_state=42)
         model.fit(X_train, y_train)
 
     return model

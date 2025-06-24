@@ -16,7 +16,7 @@ from ml.model import (
 project_path = os.getcwd()
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
-data = pd.read_csv("census.csv")
+data = pd.read_csv(data_path)
 print(f"data shape: {data.shape}")
 
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
@@ -33,7 +33,7 @@ for fold, (train_idx, test_idx) in enumerate(kf.split(data)):
 
 
 
-cat_features = [
+categorical_features = [
     "workclass",
     "education",
     "marital-status",
@@ -44,17 +44,19 @@ cat_features = [
     "native-country",
 ]
 
+label = "salary"
+
 
 X_train, y_train, encoder, lb = process_data(
-    data=train,
-    categorical_features=categorical_features,
-    label=label,
-    training=True
+    train,
+    categorical_features,
+    label,
+    True
     )
 
 X_test, y_test, _, _ = process_data(
     test,
-    categorical_features=cat_features,
+    categorical_features=categorical_features,
     label="salary",
     training=False,
     encoder=encoder,
@@ -83,14 +85,14 @@ p, r, fb = compute_model_metrics(y_test, preds)
 print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
 
 # iterate through the categorical features
-for col in cat_features:
+for col in categorical_features:
     # iterate through the unique values in one categorical feature
     for slicevalue in sorted(test[col].unique()):
         count = test[test[col] == slicevalue].shape[0]
         p, r, fb = performance_on_categorical_slice(
             data=test,
             column_name=col,
-            slice_name=slice_value,
+            slice_value=slicevalue,
             categorical_features=categorical_features,
             label=label,
             encoder=encoder,
